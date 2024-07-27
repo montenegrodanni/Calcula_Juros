@@ -1,0 +1,135 @@
+<div class="col-12">
+  <div class="bg bg-danger-subtle py-3 px-5">
+    <h3 class="text-danger fw-bolder">Cálculo da Projeção</h3>
+    <hr />
+    <div class="row">
+      <div class="col-2">
+        <label for="campo3" class="form-label me-2 text-nowrap fw-bolder"
+          >Valor da dívida</label
+        >
+        <input
+          type="number"
+          class="form-control form-control-sm"
+          id="campo3"
+          [(ngModel)]="valorOriginalICMS"
+          name="valorOriginalICMS"
+        />
+      </div>
+      <div class="col-2">
+        <label for="campo2" class="form-label me-2 text-nowrap fw-bolder"
+          >Data de Vencimento:</label
+        >
+        <input
+          type="date"
+          class="form-control form-control-sm"
+          id="campo2"
+          [(ngModel)]="dataVencimento"
+          name="dataPagamento"
+        />
+      </div>
+      <div class="col-2">
+        <label for="campo1" class="form-label me-2 text-nowrap fw-bolder"
+          >Data de Pagamento:</label
+        >
+        <input
+          type="date"
+          class="form-control form-control-sm"
+          id="campo1"
+          [(ngModel)]="dataPagamento"
+          name="dataVencimento"
+        />
+      </div>
+    </div>
+    <div class="col-6 pt-3 d-md-flex justify-content-between">
+      <div>
+        <button
+          type="button"
+          class="btn btn-secondary btn btn-danger fw-bolder"
+          (click)="calcular()"
+        >
+          Calcular
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showCalculo">
+    <div class="bg bg-secondary-subtle py-3 px-5">
+      <h3 class="text-danger fw-bolder">Resultado da Projeção</h3>
+      <hr />
+  
+      <div class="col-6 mb-3">
+        <table class="custom-table">
+          <thead class="thead-vermelho">
+            <tr>
+              <th>Data da Simulação</th>
+              <th>Data de Vencimento</th>
+              <th>Data do Pagamento</th>
+              <th class="custom-th-amarelo">Valor da Dívida</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ resultado?.dataSimulacao | date : "dd/MM/yyyy" }}</td>
+              <td>{{ dataVencimento | date : "dd/MM/yyyy" }}</td>
+              <td>{{ dataPagamento | date : "dd/MM/yyyy" }}</td>
+              <td class="fw-bolder">R${{ resultado?.valorOriginal }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="col-6 mb-3">
+        <table class="custom-table">
+          <thead class="thead-vermelho">
+            <tr>
+              <th>Dias de atraso</th>
+              <th>Selic acumulada</th>
+              <th>Juros Total</th>
+              <th class="custom-th-amarelo">Multa Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ resultado?.diasAtraso }}</td>
+              <td>{{ resultado?.selicAcumulado }}%</td>
+              <td>{{ resultado?.selicAcumulado }}% (R${{ resultado?.selicAcumuladoValor }})</td>
+              <td class="fw-bolder">R${{ resultado?.multa }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="col-6 mb-3">
+        <table class="custom-table">
+          <thead class="thead-preto">
+            <tr>
+              <th>Valor da dívida</th>
+              <th>Total Multa</th>
+              <th>Total Juros</th>
+              <th class="custom-th-amarelo">Total a ser pago</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>R${{ resultado?.valorOriginal }}</td>
+              <td>R${{ resultado?.multa }}</td>
+              <td>R${{ resultado?.selicAcumuladoValor }}</td>
+              <td class="text-danger fw-bolder">R${{ resultado?.valorDivida }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-8 pt-3 d-md-flex justify-content-md-start">
+        <button
+          type="button"
+          class="btn btn-secondary btn btn-danger fw-bolder"
+          (click)="limpar()"
+        >
+          Novo cálculo
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
